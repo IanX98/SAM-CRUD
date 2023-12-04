@@ -82,7 +82,6 @@ exports.goToEditSnackPage = (req: any, res: any, next: any) => {
 exports.editSnack = async (req: any, res: any, next: any) => {
     console.log('EDIT SNACK');
     const snackId = req.params.id;
-    console.log('REQ BODY', req.body)
     const updatedName = req.body.name;
     const updatedPrice = req.body.price;
 

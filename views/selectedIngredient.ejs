@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ingredient <%= selectedIngredient.dataValues.id %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <nav class="main-header__nav">
+            <ul class="main-header__item-list">
+                <li class="main-header__item"><a class="active" href="/">Home</a></li>
+                <li class="main-header__item"><a href="/add-ingredient">Add Ingredient</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Snack <%= selectedIngredient.dataValues.id %></h1>
+
+        <ul>
+            <li>Name: <%= selectedIngredient.dataValues.name %></li>
+            <li>Quantity: <%= selectedIngredient.dataValues.quantity %></li>
+        </ul>
+
+        <br>
+
+        <form method="GET" action="/edit-ingredient/<%= selectedIngredient.dataValues.id %>">
+            <button type="submit">Edit Ingredient</button>
+        </form>
+        <br>
+        <form method="POST" action="/delete-ingredient/<%= selectedIngredient.dataValues.id %>">
+            <button type="submit">Delete Ingredient</button>
+        </form>
+    </main>
+</body>
+
+</html>

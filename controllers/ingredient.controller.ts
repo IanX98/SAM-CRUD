@@ -23,7 +23,7 @@ exports.addIngredient = (req: any, res: any, next: any) => {
     })
     .then((result: any) => {
         console.log(result)
-        res.redirect('/');
+        res.redirect('/ingredients');
     })
     .catch((err: any) => {
         console.log(err);
@@ -43,4 +43,69 @@ exports.getIngredients = async (req: any, res: any, next: any) => {
         console.error(err);
         res.status(500).send('Error while getting ingredients.');
     });
+};
+
+exports.getSelectedIngredient = async (req: any, res: any, next: any) => {
+    console.log('GET SELECTED INGREDIENT');
+    const ingredientId = req.params.id;
+    await Ingredient.findByPk(ingredientId)
+    .then((rows: any) => {
+        res.render('selectedIngredient', {
+            selectedIngredient: rows,
+        });
+    })
+    .catch((err: any) => {
+        console.error(err);
+        res.status(500).send(`Error while getting ingredient ${ingredientId}.`);
+    });
+};
+
+exports.deleteIngredient = async (req: any, res: any, next: any) => {
+    console.log('DELETE INGREDIENT');
+    const ingredientId = req.params.id;
+    try {
+        await Ingredient.destroy({
+            where: {
+                id: ingredientId
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Error while deleting ingredient ${ingredientId} in Controller.`);
+    } finally {
+        res.redirect('/ingredients');
+    }
+};
+
+exports.goToEditIngredientPage = (req: any, res: any, next: any) => {
+    console.log('Edit Ingredient GET');
+    const ingredientId = req.params.id;
+    res.render('edit-ingredient', {
+        ingredientId: ingredientId
+    });
+};
+
+exports.editIngredient = async (req: any, res: any, next: any) => {
+    console.log('EDIT SNACK');
+    const ingredientId = req.params.id;
+    console.log('REQ BODY', req.body)
+    const updatedName = req.body.name;
+    const updatedQuantity = req.body.quantity;
+
+    try {
+        await Ingredient.findByPk(ingredientId)
+        .then((selectedIngredient: any) => {
+            selectedIngredient.name = updatedName,
+            selectedIngredient.quantity = updatedQuantity
+
+            return selectedIngredient.save();
+        })
+        .then((result: any) => {
+            console.log('UPDATED INGREDIENT');
+            res.redirect(`/ingredient/${ingredientId}`);
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Error while editing ingredient ${ingredientId} in Controller.`);
+    }
 };

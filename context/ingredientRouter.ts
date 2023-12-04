@@ -14,4 +14,12 @@ router.post('/add-ingredient', ingredientController.addIngredient);
 
 router.get('/ingredients', ingredientController.getIngredients);
 
+router.get('/ingredient/:id', ingredientController.getSelectedIngredient);
+
+router.post('/delete-ingredient/:id', ingredientController.deleteIngredient);
+
+router.get('/edit-ingredient/:id', ingredientController.goToEditIngredientPage);
+
+router.post('/edit-ingredient/:id', ingredientController.editIngredient);
+
 module.exports = router
