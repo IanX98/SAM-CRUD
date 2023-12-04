@@ -7,7 +7,7 @@ exports.goToHomePage = (req: any, res: any, next: any) => {
 };
 
 exports.goToAddIngredientPage = (req: any, res: any, next: any) => {
-    console.log('ADD SNACK PAGE');
+    console.log('ADD INGREDIENT PAGE');
     res.render('add-ingredient');
 };
 

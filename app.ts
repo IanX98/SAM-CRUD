@@ -14,10 +14,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const snackRoutes = require('./context/snackRouter');
+const ingredientRoutes = require('./context/ingredientRouter');
 const errorController = require('./controllers/error.controller');
 
-app.use(snackRoutes);
+app.use(ingredientRoutes);
 
 app.use(errorController.pageNotFound);
 app.use((err: any, res: any) => {
