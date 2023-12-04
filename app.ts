@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 
 const sequelize = require('./db/database');
 
+const Snack = require('./models/snack');
+const Ingredient = require('./models/ingredient');
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -15,14 +18,19 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const ingredientRoutes = require('./context/ingredientRouter');
+const snackRoutes = require('./context/snackRouter');
 const errorController = require('./controllers/error.controller');
 
 app.use(ingredientRoutes);
+app.use(snackRoutes);
 
 app.use(errorController.pageNotFound);
 app.use((err: any, res: any) => {
     res.status(500).json({ error: 'Internal Server Error' });
   });
+
+Snack.belongsToMany(Ingredient, { through: 'SnackIngredients' });
+Ingredient.belongsToMany(Snack, { through: 'SnackIngredients' });
 
 const PORT = 3000;
 
