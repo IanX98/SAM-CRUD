@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Snack <%= selectedSnack.dataValues.id %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <nav class="main-header__nav">
+            <ul class="main-header__item-list">
+                <li class="main-header__item"><a class="active" href="/">Home</a></li>
+                <li class="main-header__item"><a href="/add-snack">Add Snack</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Snack <%= selectedSnack.dataValues.id %></h1>
+
+        <ul>
+            <li>Name: <%= selectedSnack.dataValues.name %></li>
+            <li>Price: $<%= selectedSnack.dataValues.price %></li>
+        </ul>
+
+        <br>
+
+        <form method="GET" action="/edit-snack/<%= selectedSnack.dataValues.id %>">
+            <button type="submit">Edit Snack</button>
+        </form>
+        <br>
+        <form method="POST" action="/delete-snack/<%= selectedSnack.dataValues.id %>">
+            <button type="submit">Delete Snack</button>
+        </form>
+    </main>
+</body>
+
+</html>

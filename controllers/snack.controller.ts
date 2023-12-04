@@ -38,3 +38,35 @@ exports.getSnacks = async (req: any, res: any, next: any) => {
         res.status(500).send('Error while getting snacks.');
     });
 };
+
+exports.getSelectedSnack = async (req: any, res: any, next: any) => {
+    console.log('GET SELECTED SNACK');
+    const snackId = req.params.id;
+    await Snack.findByPk(snackId)
+    .then((rows: any) => {
+        res.render('selectedSnack', {
+            selectedSnack: rows,
+        });
+    })
+    .catch((err: any) => {
+        console.error(err);
+        res.status(500).send(`Error while getting snack ${snackId}.`);
+    });
+};
+
+exports.deleteSnack = async (req: any, res: any, next: any) => {
+    console.log('DELETE SNACK');
+    const snackId = req.params.id;
+    try {
+        await Snack.destroy({
+            where: {
+                id: snackId
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Error while deleting snack ${snackId} in Controller.`);
+    } finally {
+        res.redirect('/snacks');
+    }
+};
