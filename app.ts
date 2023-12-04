@@ -36,11 +36,3 @@ try {
       console.log(`Server started at ${PORT}`);
     });
   }
-
-// try {
-//     app.listen(PORT, () => {
-//     console.log(`Server is running at http://localhost:${PORT}`);
-// });
-// } catch (err) {
-//     console.error('Error Starting App:', err);
-// }

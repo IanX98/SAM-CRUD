@@ -6,13 +6,13 @@ exports.goToHomePage = (req: any, res: any, next: any) => {
     res.render('home');
 };
 
-exports.goToAddSnackPage = (req: any, res: any, next: any) => {
+exports.goToAddIngredientPage = (req: any, res: any, next: any) => {
     console.log('ADD SNACK PAGE');
     res.render('add-ingredient');
 };
 
-exports.addSnack = (req: any, res: any, next: any) => {
-    console.log('Add SNACK POST');
+exports.addIngredient = (req: any, res: any, next: any) => {
+    console.log('Add INGREDIENT POST');
     console.log('BODY', req.body)
     const name = req.body.ingredient_name;
     const quantity = req.body.ingredient_quantity;
@@ -29,4 +29,18 @@ exports.addSnack = (req: any, res: any, next: any) => {
         console.log(err);
         res.status(500).send(`Error while adding ingredient ${name}.`);
     })
+};
+
+exports.getIngredients = async (req: any, res: any, next: any) => {
+    console.log('GET INGREDIENTS');
+    await Ingredient.findAll()
+    .then((rows: any) => {
+        res.render('ingredients', {
+            ingredients: rows,
+        });
+    })
+    .catch((err: any) => {
+        console.error(err);
+        res.status(500).send('Error while getting ingredients.');
+    });
 };
