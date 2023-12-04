@@ -70,3 +70,36 @@ exports.deleteSnack = async (req: any, res: any, next: any) => {
         res.redirect('/snacks');
     }
 };
+
+exports.goToEditSnackPage = (req: any, res: any, next: any) => {
+    console.log('Edit snack GET');
+    const snackId = req.params.id;
+    res.render('edit-snack', {
+        snackId: snackId
+    });
+};
+
+exports.editSnack = async (req: any, res: any, next: any) => {
+    console.log('EDIT SNACK');
+    const snackId = req.params.id;
+    console.log('REQ BODY', req.body)
+    const updatedName = req.body.name;
+    const updatedPrice = req.body.price;
+
+    try {
+        await Snack.findByPk(snackId)
+        .then((selectedSnack: any) => {
+            selectedSnack.name = updatedName,
+            selectedSnack.price = updatedPrice
+
+            return selectedSnack.save();
+        })
+        .then((result: any) => {
+            console.log('UPDATED CLASS');
+            res.redirect(`/snack/${snackId}`);
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Error while editing snack ${snackId} in Controller.`);
+    }
+};

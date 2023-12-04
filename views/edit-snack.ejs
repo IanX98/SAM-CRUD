@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Snack</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <nav class="main-header__nav">
+            <ul class="main-header__item-list">
+                <li class="main-header__item"><a href="/">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Edit Snack <%= snackId %></h1>
+
+        <form class="product-form" action="/edit-snack/<%= snackId %>" method="POST">
+            <div class="form-control">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name">
+            </div>
+
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input type="number" step="0.01" name="price" id="price">
+            </div>
+
+            <br>
+
+            <button type="submit">Edit Snack</button>
+        </form>
+    </main>
+</body>
+
+</html>

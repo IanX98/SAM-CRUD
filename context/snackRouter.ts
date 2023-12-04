@@ -16,8 +16,8 @@ router.get('/snack/:id', snackController.getSelectedSnack);
 
 router.post('/delete-snack/:id', snackController.deleteSnack);
 
-// router.get('/edit-snack/:id', snackController.goToEditClassPage);
+router.get('/edit-snack/:id', snackController.goToEditSnackPage);
 
-// router.post('/edit-snack/:id', snackController.editClass);
+router.post('/edit-snack/:id', snackController.editSnack);
 
 module.exports = router
