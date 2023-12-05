@@ -20,20 +20,44 @@
 
     <main>
         <h1>Make your order here</h1>
-        <h3>Available Snacks !!</h3>
+        <% if (snacks.length > 0) { %>
+            <h3>Available Snacks !!</h3>
+        <% } else { %>
+            <h3>No Snacks Found!</h3>
+        <% } %>
         <br>
 
-        <form class="product-form" action="/" method="POST">
+        <% if (snacks.length > 0) { %>
+            <div class="grid">
+                <% for (let snack of snacks) { %>
+                    <article class="card product-item">
+                        <div class="card__content">
+                            <h3><a href="/snack/<%= snack.dataValues.id %>"><p><%= snack.dataValues.name %> %></p></a></h3>
+                        </div>
+                    </article>
+                    <form class="product-form" action="/" method="POST">
 
-            <div class="form-control">
-                <label for="quantity">Quantity</label>
-                <input type="number" name="quantity" id="quantity">
+                        <div class="form-control">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" name="quantity" id="quantity">
+                        </div>
+                    
+                        <button type="submit">Add <%= snack.dataValues.name %></button>
+                    </form>
+                <% } %>
+
+                <br>
+
+                    <ul>
+                        <li>Total: $XXX</li>
+                        <li>Snacks: 
+                            <ul>
+                                <li>item 1</li>
+                            </ul>
+                        </li>
+                    </ul>
             </div>
-
-            <br>
-
-            <button type="submit">Add Snack Ingredients Quantity</button>
-        </form>
+        <% } %>
     </main>
 </body>
 
