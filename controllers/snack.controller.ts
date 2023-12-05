@@ -43,10 +43,14 @@ exports.getSnacks = async (req: any, res: any, next: any) => {
 exports.getSelectedSnack = async (req: any, res: any, next: any) => {
     console.log('GET SELECTED SNACK');
     const snackId = req.params.id;
+
     await Snack.findByPk(snackId)
     .then((rows: any) => {
+        const snackIngredients = rows.dataValues.snackIngredients
+
         res.render('selectedSnack', {
             selectedSnack: rows,
+            snackIngredients: snackIngredients
         });
     })
     .catch((err: any) => {
@@ -110,7 +114,7 @@ exports.goToAddSnackIngredients = async (req: any, res: any, next: any) => {
     const snackId = req.params.id;
     await Ingredient.findAll()
     .then((rows: any) => {
-        res.render('snack-add-ingredient', {
+        res.render('add-snack-ingredient', {
             snackId: snackId,
             ingredients: rows,
         });
@@ -121,21 +125,55 @@ exports.goToAddSnackIngredients = async (req: any, res: any, next: any) => {
     });
 };
 
-exports.addSnackIngredients = (req: any, res: any, next: any) => {
-    console.log('Add SNACK POST');
-    const name = req.body.name;
-    const price = req.body.price;
+exports.goToAddSnackIngredientsQuantity = async (req: any, res: any, next: any) => {
+    console.log('Add SNACK INGREDIENTS QUANTITY PAGE GET');
 
-    Snack.create({
-        name: name,
-        price: price
-    })
-    .then((result: any) => {
-        console.log(result)
-        res.redirect('/snacks');
+    const snackId = req.params.snackId;
+    const ingredientId = req.params.ingredientId;
+
+    await Snack.findByPk(snackId)
+    .then(async (rows: any) => {
+        const selectedIngredient = await Ingredient.findByPk(ingredientId);
+
+        res.render('add-snack-ingredients-quantity', {
+            snackId: snackId,
+            ingredientId: ingredientId,
+            snack: rows,
+            ingredient: selectedIngredient
+        })
     })
     .catch((err: any) => {
-        console.log(err);
-        res.status(500).send(`Error while adding snack ${name}.`);
-    })
+        console.error(err);
+        res.status(500).send(`Error while getting snack ${snackId}.`);
+    });
+};
+
+exports.addSnackIngredients = async (req: any, res: any, next: any) => {
+    console.log('Add SNACK INGREDIENT QUANTITY POST');
+    const snackId = req.params.snackId;
+    const ingredientId = req.params.ingredientId;
+
+    const quantity = req.body.quantity;
+
+    try {
+        await Snack.findByPk(snackId)
+        .then(async (selectedSnack: any) => {
+            const selectedIngredient = await Ingredient.findByPk(ingredientId);
+            const currentSnackIngredients = selectedSnack.dataValues.snackIngredients;
+
+            const newIngredient = { name: `${selectedIngredient.dataValues.name}`, quantity: quantity };
+            const updatedIngredients = [...currentSnackIngredients, newIngredient];
+
+            selectedSnack.snackIngredients = updatedIngredients;
+
+            return selectedSnack.save();
+        })
+        .then((result: any) => {
+            console.log('UPDATED CLASS');
+            res.redirect(`/snack/${snackId}`);
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Error while editing snack ${snackId} in Controller.`);
+    }
 };

@@ -25,6 +25,11 @@
         <ul>
             <li>Name: <%= selectedSnack.dataValues.name %></li>
             <li>Price: $<%= selectedSnack.dataValues.price %></li>
+            <li>Ingredients: <ul>
+                <% snackIngredients.forEach(ingredient => { %>
+                    <li><%= ingredient.name %> - <%= ingredient.quantity %></li>
+                <% }); %>
+            </ul></li>
         </ul>
 
         <br>

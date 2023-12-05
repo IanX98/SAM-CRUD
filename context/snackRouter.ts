@@ -22,6 +22,8 @@ router.post('/edit-snack/:id', snackController.editSnack);
 
 router.get('/add-snack-ingredients/:id', snackController.goToAddSnackIngredients);
 
-router.post('/add-snack-ingredients/:id', snackController.addSnackIngredients);
+router.get('/add-snack-ingredients-quantity/:snackId/:ingredientId', snackController.goToAddSnackIngredientsQuantity);
+
+router.post('/add-snack-ingredients-quantity/:snackId/:ingredientId', snackController.addSnackIngredients);
 
 module.exports = router
