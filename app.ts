@@ -7,6 +7,7 @@ const sequelize = require('./db/database');
 
 const Snack = require('./models/snack');
 const Ingredient = require('./models/ingredient');
+const Order = require('./models/order');
 
 const app = express();
 
@@ -19,17 +20,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const ingredientRoutes = require('./context/ingredientRouter');
 const snackRoutes = require('./context/snackRouter');
+const orderRoutes = require('./context/orderRouter');
 const errorController = require('./controllers/error.controller');
 
 app.use(ingredientRoutes);
 app.use(snackRoutes);
+app.use(orderRoutes);
 
 app.use(errorController.pageNotFound);
 app.use((err: any, res: any) => {
     res.status(500).json({ error: 'Internal Server Error' });
   });
-
-Snack.hasMany(Ingredient);
 
 const PORT = 3000;
 
