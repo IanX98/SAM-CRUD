@@ -20,7 +20,7 @@
     </header>
 
     <main>
-        <h1>Snack <%= selectedIngredient.dataValues.id %></h1>
+        <h1>Ingredient <%= selectedIngredient.dataValues.id %></h1>
 
         <ul>
             <li>Name: <%= selectedIngredient.dataValues.name %></li>
@@ -29,10 +29,16 @@
 
         <br>
 
+        <form method="POST" action="/add-quantity/<%= selectedIngredient.dataValues.id %>">
+            <button type="submit">Add Ingredient Quantity</button>
+        </form>
+        <br>
+
         <form method="GET" action="/edit-ingredient/<%= selectedIngredient.dataValues.id %>">
             <button type="submit">Edit Ingredient</button>
         </form>
         <br>
+
         <form method="POST" action="/delete-ingredient/<%= selectedIngredient.dataValues.id %>">
             <button type="submit">Delete Ingredient</button>
         </form>

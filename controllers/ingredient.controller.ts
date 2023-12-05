@@ -86,7 +86,7 @@ exports.goToEditIngredientPage = (req: any, res: any, next: any) => {
 };
 
 exports.editIngredient = async (req: any, res: any, next: any) => {
-    console.log('EDIT SNACK');
+    console.log('EDIT INGREDIENT');
     const ingredientId = req.params.id;
     console.log('REQ BODY', req.body)
     const updatedName = req.body.name;
@@ -107,5 +107,26 @@ exports.editIngredient = async (req: any, res: any, next: any) => {
     } catch (err) {
         console.error(err);
         res.status(500).send(`Error while editing ingredient ${ingredientId} in Controller.`);
+    }
+};
+
+exports.addIngredientQuantity = async (req: any, res: any, next: any) => {
+    console.log('ADD INGREDIENT');
+    const ingredientId = req.params.id;
+
+    try {
+        await Ingredient.findByPk(ingredientId)
+        .then((selectedIngredient: any) => {
+            selectedIngredient.quantity += 1
+
+            return selectedIngredient.save();
+        })
+        .then((result: any) => {
+            console.log('ADDED INGREDIENT QUANTITY');
+            res.redirect(`/ingredient/${ingredientId}`);
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Error while adding ingredient ${ingredientId} quantity in Controller.`);
     }
 };

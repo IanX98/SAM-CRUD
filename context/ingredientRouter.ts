@@ -22,4 +22,6 @@ router.get('/edit-ingredient/:id', ingredientController.goToEditIngredientPage);
 
 router.post('/edit-ingredient/:id', ingredientController.editIngredient);
 
+router.post('/add-quantity/:id', ingredientController.addIngredientQuantity);
+
 module.exports = router
