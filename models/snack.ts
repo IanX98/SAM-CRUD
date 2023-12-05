@@ -1,3 +1,5 @@
+import { DataTypes } from "sequelize";
+
 const Sequelize = require('sequelize');
 
 const sequelize = require('../db/database');
@@ -16,6 +18,11 @@ const Snack = sequelize.define('snack', {
     price: { 
         type: Sequelize.FLOAT,
         allowNUll: false
+    },
+    snackIngredients: {
+        type: Sequelize.ARRAY(DataTypes.JSONB),
+        allowNUll: false,
+        defaultValue: []
     }
 });
 

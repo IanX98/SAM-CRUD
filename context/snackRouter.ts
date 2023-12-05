@@ -20,4 +20,8 @@ router.get('/edit-snack/:id', snackController.goToEditSnackPage);
 
 router.post('/edit-snack/:id', snackController.editSnack);
 
+router.get('/add-snack-ingredients/:id', snackController.goToAddSnackIngredients);
+
+router.post('/add-snack-ingredients/:id', snackController.addSnackIngredients);
+
 module.exports = router

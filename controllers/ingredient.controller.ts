@@ -14,12 +14,14 @@ exports.goToAddIngredientPage = (req: any, res: any, next: any) => {
 exports.addIngredient = (req: any, res: any, next: any) => {
     console.log('Add INGREDIENT POST');
     console.log('BODY', req.body)
+    const snackId = req.params.id;
     const name = req.body.ingredient_name;
     const quantity = req.body.ingredient_quantity;
     
     Ingredient.create({
         name: name,
-        quantity: quantity
+        quantity: quantity,
+        snackId: snackId
     })
     .then((result: any) => {
         console.log(result)

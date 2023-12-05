@@ -29,6 +29,11 @@
 
         <br>
 
+        <form method="GET" action="/add-snack-ingredients/<%= selectedSnack.dataValues.id %>">
+            <button type="submit">Add Snack Ingredients</button>
+        </form>
+        <br>
+
         <form method="GET" action="/edit-snack/<%= selectedSnack.dataValues.id %>">
             <button type="submit">Edit Snack</button>
         </form>

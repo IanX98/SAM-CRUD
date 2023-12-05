@@ -29,8 +29,7 @@ app.use((err: any, res: any) => {
     res.status(500).json({ error: 'Internal Server Error' });
   });
 
-Snack.belongsToMany(Ingredient, { through: 'SnackIngredients' });
-Ingredient.belongsToMany(Snack, { through: 'SnackIngredients' });
+Snack.hasMany(Ingredient);
 
 const PORT = 3000;
 
