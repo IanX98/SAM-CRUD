@@ -36,12 +36,6 @@
                         </div>
                     </article>
                     <form class="product-form" action="/add-snack-order/<%= snack.dataValues.id %>" method="POST">
-
-                        <div class="form-control">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" name="quantity" id="quantity">
-                        </div>
-                    
                         <button type="submit">Add <%= snack.dataValues.name %></button>
                     </form>
                 <% } %>
