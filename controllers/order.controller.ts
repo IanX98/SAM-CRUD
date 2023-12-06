@@ -5,27 +5,32 @@ const Snack = require('../models/snack');
 exports.goToMakeOrderPage = async (req: any, res: any, next: any) => {
     console.log('MAKE ORDER PAGE');
 
-    Order.findByPk(1)
+    const order = Order.findByPk(1)
     .then(async (orderCreated: any) => {
         if (!orderCreated) {
             console.log('ORDER CREATED')
-            Order.create({
+            const order = Order.create({
             snacks: [],
             totalPrice: 0
             });
+            return order
         }
-    })
+        const order = orderCreated;
 
-    await Snack.findAll()
-    .then((rows: any) => {
-        res.render('make-order', {
-            snacks: rows,
+        console.log(order, 'ORDER')
+
+        await Snack.findAll()
+        .then((rows: any) => {
+            res.render('make-order', {
+                snacks: rows,
+                order: order
+            });
+        })
+        .catch((err: any) => {
+            console.error(err);
+            res.status(500).send('Error while getting snacks at order page.');
         });
     })
-    .catch((err: any) => {
-        console.error(err);
-        res.status(500).send('Error while getting snacks at order page.');
-    });
 };
 
 exports.addSnackToOrder = (req: any, res: any, next: any) => {
@@ -48,6 +53,7 @@ exports.addSnackToOrder = (req: any, res: any, next: any) => {
                 })
                 .then((result: any) => {
                     console.log('UPDATED ORDER');
+                    res.redirect('/make-order');
                 })
             } catch (err) {
                 console.error(err);

@@ -49,10 +49,12 @@
                 <br>
 
                     <ul>
-                        <li>Total: $XXX</li>
+                        <li>Total: <%= order.dataValues.totalPrice %></li>
                         <li>Snacks: 
                             <ul>
-                                <li>item 1</li>
+                                <% order.dataValues.snacks.forEach(snack => { %>
+                                    <li><%= snack.name %></li>
+                                <% }); %>
                             </ul>
                         </li>
                     </ul>
