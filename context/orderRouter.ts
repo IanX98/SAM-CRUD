@@ -8,10 +8,9 @@ const orderController = require('../controllers/order.controller');
 
 router.get('/make-order', orderController.goToMakeOrderPage);
 
-// router.post('/add-ingredient', ingredientController.addIngredient);
+router.post('/add-snack-order/:id', orderController.addSnackToOrder);
 
 // router.get('/ingredients', ingredientController.getIngredients);
-
 
 // router.get('/edit-ingredient/:id', ingredientController.goToEditIngredientPage);
 

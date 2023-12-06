@@ -35,7 +35,7 @@ app.use((err: any, res: any) => {
 const PORT = 3000;
 
 try {
-    Promise.all([sequelize.sync()])
+    Promise.all([sequelize.sync()]);
   } catch (err) {
     console.error('Error connecting to database:', err);
   } finally {
