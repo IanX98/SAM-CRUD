@@ -46,22 +46,45 @@ exports.addSnackToOrder = (req: any, res: any, next: any) => {
                 .then(async (selectedSnack: any) => {
                     const currentOrder = orderCreated.dataValues.snacks;
 
-                    let quantity = 1
-                    orderCreated.snacks.forEach((snack: any) => {
+                    let snackAlreadyAdded = false;
+                    let snackIndex = 0;
+                    orderCreated.snacks.forEach(async (snack: any, index: number) => {
                         if (snack.dataValues.id === selectedSnack.dataValues.id) {
-                            quantity++;
+                            snackAlreadyAdded = true;
+                            snackIndex = index;
+                            // console.log('INDEX TEST', index)
+                            // console.log('BEFORE QUANTITY', orderCreated.snacks[index].quantity)
+                            // const addedQuantity = orderCreated.snacks[index].quantity + 1;
+                            // console.log('ADDED QUANTITY', addedQuantity)
+
+                            // orderCreated.snacks[index] = {
+                            //     ...selectedSnack,
+                            //     quantity: addedQuantity
+                            // }
                         }
                     });
 
-                    const snack = { 
-                        ...selectedSnack,
-                        quantity: quantity
+                    if (!snackAlreadyAdded) {
+                        console.log('NOT ADDED')
+                        const snack = {
+                          ...selectedSnack,
+                          quantity: 1
                         };
+                    
+                        const updatedOrder = [...currentOrder, snack];
+                        orderCreated.snacks = updatedOrder;
+                      }
         
-                    const updatedOrder = [...currentOrder, snack];
-                    orderCreated.snacks = updatedOrder;
+                    let totalPrice = 0;
+                    orderCreated.snacks.forEach((snack: any) => {
+                        const { quantity, dataValues } = snack;
+                        const { price } = dataValues;
+                        totalPrice += quantity * price;
+                    });
 
-                    return orderCreated.save();
+                    orderCreated.totalPrice = totalPrice;
+                    
+                    return await orderCreated.save();
                 })
                 .then(async (result: any) => {
                     console.log('UPDATED ORDER');
