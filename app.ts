@@ -36,10 +36,10 @@ const PORT = 3000;
 
 try {
     Promise.all([sequelize.sync()]);
+    console.log('DATABASE CONNECTED');
   } catch (err) {
     console.error('Error connecting to database:', err);
   } finally {
-    console.log('DATABASES CONNECTED');
     app.listen(PORT, () => {
       console.log(`Server started at ${PORT}`);
     });

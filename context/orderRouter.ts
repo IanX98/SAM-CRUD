@@ -10,10 +10,6 @@ router.get('/make-order', orderController.goToMakeOrderPage);
 
 router.post('/add-snack-order/:id', orderController.addSnackToOrder);
 
-// router.get('/ingredients', ingredientController.getIngredients);
-
-// router.get('/edit-ingredient/:id', ingredientController.goToEditIngredientPage);
-
-// router.post('/edit-ingredient/:id', ingredientController.editIngredient);
+router.get('/finish-order/', orderController.finishOrder);
 
 module.exports = router

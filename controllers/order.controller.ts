@@ -1,6 +1,7 @@
 const path = require('path');
 const Order = require('../models/order');
 const Snack = require('../models/snack');
+const Ingredient = require('../models/ingredient');
 
 exports.goToMakeOrderPage = async (req: any, res: any, next: any) => {
     console.log('MAKE ORDER PAGE');
@@ -93,6 +94,50 @@ exports.addSnackToOrder = (req: any, res: any, next: any) => {
             } catch (err) {
                 console.error(err);
                 res.status(500).send(`Error while adding snack ${snackId} to order in Controller.`);
+            }
+        }
+    });
+};
+
+exports.finishOrder = (req: any, res: any, next: any) => {
+    console.log('FINISH ORDER');
+
+    Order.findByPk(1)
+    .then(async (orderCreated: any) => {
+        if (orderCreated) {
+            try {
+               orderCreated.dataValues.snacks.forEach((snack: any) => {
+                snack.dataValues.snackIngredients.forEach(async (ingredient: any) => {
+
+                    let snackIngredient = ingredient;
+                    await Ingredient.findAll()
+                    .then((ingredients: any) => {
+                        ingredients.forEach((ingredientStock: any) => {
+                            if (snackIngredient.name === ingredientStock.name && ingredientStock.quantity >= snackIngredient.quantity) {
+                                const newStock = ingredientStock.quantity - snackIngredient.quantity;
+                                ingredientStock.quantity = newStock;
+
+                                return ingredientStock.save()
+                            }
+                        });
+
+                        orderCreated.snacks = [];
+                        orderCreated.totalPrice = 0;
+                        return orderCreated.save();
+                    })
+                    .catch((err: any) => {
+                        console.error(err);
+                        res.status(500).send('Error while getting ingredients.');
+                    });
+                    
+                })
+            });
+
+            } catch (err) {
+                console.error(err);
+                res.status(500).send(`Error while finishing orderin Controller.`);
+            } finally {
+                res.redirect('/make-order');
             }
         }
     });
