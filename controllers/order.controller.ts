@@ -48,20 +48,9 @@ exports.addSnackToOrder = (req: any, res: any, next: any) => {
                     const currentOrder = orderCreated.dataValues.snacks;
 
                     let snackAlreadyAdded = false;
-                    let snackIndex = 0;
-                    orderCreated.snacks.forEach(async (snack: any, index: number) => {
+                    orderCreated.snacks.forEach(async (snack: any) => {
                         if (snack.dataValues.id === selectedSnack.dataValues.id) {
                             snackAlreadyAdded = true;
-                            snackIndex = index;
-                            // console.log('INDEX TEST', index)
-                            // console.log('BEFORE QUANTITY', orderCreated.snacks[index].quantity)
-                            // const addedQuantity = orderCreated.snacks[index].quantity + 1;
-                            // console.log('ADDED QUANTITY', addedQuantity)
-
-                            // orderCreated.snacks[index] = {
-                            //     ...selectedSnack,
-                            //     quantity: addedQuantity
-                            // }
                         }
                     });
 
